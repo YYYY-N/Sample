@@ -91,3 +91,79 @@ tw-icon[title="Redo"] {
 ================================================================
 6 重啟故事重設血量（寫在最後一頁的尾部。）
   (set: $hp to 10)
+================================================================
+7 註解
+
+7.1 原有屬性簡單註解
+
+現在，你要送幾個重要的俄羅斯親友 <span title="gift">禮物</span>。
+
+-----------------------------------------------------------------
+
+7.2 CSS客製化顯示小框
+
+/* 任何帶 aria-description 的元素都會有提示框 */
+[aria-description] {
+  position: relative;
+  border-bottom: 1px dotted #666;
+  cursor: help;
+}
+
+/* 提示框本體（預設隱藏） */
+[aria-description]::after {
+  content: attr(aria-description);
+  position: absolute;
+  left: 50%;
+  bottom: -2.2em;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: #fffbe6;
+  color: #000;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s;
+}
+
+/* 滑鼠移入時顯示 */
+[aria-description]:hover::after { opacity: 1; }
+
+--------------------------------------------------------------------
+【7.2 CSS客製化顯示小框】
+【以下內容與上述相同，唯新增每行程式碼的說明文字】
+
+/* --- 目標：任何帶有 aria-description 屬性的元素都變成「可提示」對象 --- */
+[aria-description] { /* 選取所有具有 aria-description 的元素，作為 tooltip 的錨點 */
+  position: relative;           /* 建立定位上下文，讓內部 ::after 能以此元素為基準做絕對定位 */
+  border-bottom: 1px dotted #666; /* 視覺提示：在文字下加灰色虛線，暗示「可滑鼠查看說明」 */
+  cursor: help;                 /* 滑鼠游標呈現「說明」圖示，增強可發現性 */
+}
+
+/* --- 真正的提示框：利用 ::after 偽元素產生，預設隱藏 --- */
+[aria-description]::after {     /* 取同一元素的 ::after 來顯示提示內容的小框 */
+  content: attr(aria-description); /* 讀取元素的 aria-description 屬性值作為提示文字 */
+  position: absolute;           /* 絕對定位（相對於上方的 position: relative 錨點） */
+  left: 50%;                    /* 初步將提示框的左邊緣放在錨點寬度的 50%（大致置中） */
+  bottom: -2.2em;               /* 放在錨點下方一段距離；可依字體大小微調 */
+  transform: translateX(-50%);  /* 將自身再往左平移 50% 寬度，達到真正水平置中 */
+  padding: 4px 8px;             /* 內距：讓文字與邊框有空間，提升可讀性 */
+  background: #fffbe6;          /* 淡黃色背景，與正文區分、符合提示感 */
+  color: #000;                  /* 文字顏色為黑，確保對比度 */
+  border: 1px solid #ccc;       /* 細邊框，讓提示框有明確輪廓 */
+  border-radius: 4px;           /* 圓角，讓視覺更柔和 */
+  box-shadow: 0 2px 6px rgba(0,0,0,.15); /* 投影，營造浮起的感覺、與背景分離 */
+  white-space: nowrap;          /* 不自動換行，避免小框太高（可刪除以允許多行） */
+  opacity: 0;                   /* 預設不可見（透明） */
+  pointer-events: none;         /* 避免滑到提示框本身時「失焦閃爍」或截斷 hover 事件 */
+  z-index: 1;                   /* 疊在一般文字之上，避免被覆蓋 */
+  transition: opacity .15s;     /* 透明度轉場，讓出現/消失更平滑 */
+}
+
+======================================================================
+8 「點擊展開文化註解」
+
+你知道 (link-reveal:“為什麼俄羅斯男生不喜歡收到花嗎？")[有的俄羅斯男性覺得花朵是女性化的東西，沒有男子氣概。]
+
